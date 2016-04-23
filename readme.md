@@ -4,6 +4,10 @@ A test encoding application for BlitzMax - www.BlitzMax.com
 
 Installation
 -------------
+You will need the fmod module from Bruce A. Henderson located at
+https://github.com/BlitzMaxModules/bah.mod/tree/master/fmod.mod
+installed into your BlitzMax mod folder as /mod/bah.mod/fmod.mod/*files*
+
 If you don't already have an srs.mod folder in *BlitzMax*\mod\ then create one.
 Copy the fmodencoder.mod directory into the srs.mod folder.
 
