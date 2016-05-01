@@ -1,9 +1,6 @@
 
 #include <windows.h>
-#include <cstdio>
 #include "fmodencodercodec_mp3.h"
-
-#include <stdio.h>
 
 CFModEncoderCodecMp3::CFModEncoderCodecMp3():
 m_hLameDll(0),

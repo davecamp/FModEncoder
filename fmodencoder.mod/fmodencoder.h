@@ -16,9 +16,9 @@ public:
 	void Close();
 	
 	int SetRadioStation(char* pRadioStation);
-	int SetOutputFilename(char* pFilename);
-	int SetEncoder(SRS_FMOD_ENCODER_CODEC eEncoderType);
-	int SetOutputBitrate(float fBitrate);
+	void SetOutputFilename(char* pFilename);
+	void SetEncoder(SRS_FMOD_ENCODER_CODEC eEncoderType);
+	void SetOutputBitrate(float fBitrate);
 	int StartEncoding();
 	int StopEncoding();
 

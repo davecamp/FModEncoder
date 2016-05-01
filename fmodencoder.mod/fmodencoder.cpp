@@ -1,10 +1,14 @@
 
+#define _FILE_OFFSET_BITS=64
+#define _LARGEFILE64_SOURCE
+
 #include <cstdio>
 
 #include "..\..\bah.mod\fmod.mod\include\fmod_errors.h"
 #include "fmodencoder.h"
 #include "fmodencodercodec_mp3.h"
 #include "fmodencodercodec_ogg.h"
+#include "fmodencodercodec_wav.h"
 
 #define CHECK_FMOD_ERROR( fmodResult ) if(fmodResult != FMOD_OK){ printf("%s",FMOD_ErrorString(fmodResult)); StopRadioStation(); return false; }
 int	g_iLock = 0;
@@ -54,31 +58,22 @@ void CFModEncoder::Close(){
 }
 
 int CFModEncoder::SetRadioStation(char* pRadioStation){
-	if(pRadioStation == 0){
-		StopRadioStation();
-		return true;
-	}
+	StopRadioStation();
+	if(pRadioStation == 0) return true;
 
 	return StartRadioStation(pRadioStation);
 }
 
-int CFModEncoder::SetOutputFilename(char* pFilename){
-	if(!m_fmodSystem) return false;
-
+void CFModEncoder::SetOutputFilename(char* pFilename){
 	strncpy(m_OutputFilename,pFilename,sizeof(m_OutputFilename)-1);
-	return true;
 }
 
-int CFModEncoder::SetEncoder(SRS_FMOD_ENCODER_CODEC eEncoderCodec){
+void CFModEncoder::SetEncoder(SRS_FMOD_ENCODER_CODEC eEncoderCodec){
 	m_eEncoderCodec = eEncoderCodec;	
-	return false;
 }
 
-int CFModEncoder::SetOutputBitrate(float fBitrate){
-	if(!m_fmodSystem) return false;
-
+void CFModEncoder::SetOutputBitrate(float fBitrate){
 	m_fOutputBitrate = fBitrate;
-	return true;
 }
 	
 int CFModEncoder::StartEncoding(){
@@ -88,17 +83,16 @@ int CFModEncoder::StartEncoding(){
 	int iNoChannels = 0;
 	FMOD_Sound_GetFormat(m_fmodSound,0,0,&iNoChannels,0);
 	
-	m_OutputFile = fopen(m_OutputFilename,"wb");
+	m_OutputFile = fopen64(m_OutputFilename,"wb");
 	if(!m_OutputFile) return false;
 	
 	unsigned long uiEncodedBufferSize = 0;
-	do{
-		if(!m_pEncoderCodec->InitCodec(iNoChannels, m_fInputSamplerate, m_fOutputBitrate, m_pEncodedBuffer, &uiEncodedBufferSize)){
-			delete m_pEncoderCodec;
-			m_pEncoderCodec = 0;
-			return false;
-		}
-	}while(uiEncodedBufferSize > 0);
+	if(!m_pEncoderCodec->InitCodec(iNoChannels, m_fInputSamplerate, m_fOutputBitrate, m_pEncodedBuffer, &uiEncodedBufferSize)){
+		delete m_pEncoderCodec;
+		m_pEncoderCodec = 0;
+		return false;
+	}
+	if(uiEncodedBufferSize) fwrite(m_pEncodedBuffer,sizeof(char),uiEncodedBufferSize,m_OutputFile);
 
 	m_bIsEncoding = true;
 	return true;
@@ -163,6 +157,10 @@ int CFModEncoder::InitCodec(){
 	case SRS_FMOD_ENCODER_CODEC_OGG:
 		m_pEncoderCodec = new CFModEncoderCodecOgg();
 		break;
+		
+	case SRS_FMOD_ENCODER_CODEC_WAV:
+		m_pEncoderCodec = new CFModEncoderCodecWav();
+		break;
 
 	default:
 		return false;
@@ -187,7 +185,6 @@ void CFModEncoder::Encode(void* pSamples, unsigned int uiSamplesLength){
 	if(m_pEncoderCodec){
 		unsigned long uiEncodedLength = 0;
 		m_pEncoderCodec->Encode(pSamples,uiSamplesLength,m_pEncodedBuffer,&uiEncodedLength);
-
 		if(uiEncodedLength ) fwrite(m_pEncodedBuffer,1,uiEncodedLength,m_OutputFile);
 	}
 }
@@ -204,7 +201,7 @@ FMOD_RESULT F_CALLBACK fmodCallback(FMOD_SOUND* pSound,void* data, unsigned int 
 	
 	FMOD_Sound_GetUserData(pSound, &pUserData);
 	pEncoder = static_cast<IFModEncoder*>(pUserData);
-	
+
 	if(pEncoder && pEncoder->IsEncoding()){
 		pEncoder->Encode(data, datalen);
 	}

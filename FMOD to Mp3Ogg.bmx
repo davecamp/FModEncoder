@@ -24,7 +24,7 @@ NetRadio.SetRadioStation("http://relay.181.fm:8030")
 
 ' GUI
 Global winMain:TGadget = CreateWindow("Basic Audio Encoder",0,0,600,200,Null,WINDOW_DEFAULT|WINDOW_CENTER ~ WINDOW_MENU)
-Global boxEncoderQuality:TGadget=CreateComboBox(150,50,70,25,winMain)
+Global boxEncoderQuality:TGadget=CreateComboBox(220,50,70,25,winMain)
 SetGadgetLayout boxEncoderQuality, Null, Null, EDGE_ALIGNED, Null
 
 ' compressions
@@ -44,8 +44,9 @@ Global txtOutFilename:TGadget = CreateTextArea(130,20,430,25,winMain,TEXTAREA_RE
 Global butEncode:TGadget = CreateButton("Start encoding",460,50,100,25,winMain)
 DisableGadget(butEncode)
 
-Global butOgg:TGadget = CreateButton("Ogg",20,50,50,25,winMain,BUTTON_RADIO)
-Global butMp3:TGadget = CreateButton("Mp3",90,50,50,25,winMain,BUTTON_RADIO)
+Global butWav:TGadget = CreateButton("Wav",20,50,50,25,winMain,BUTTON_RADIO)
+Global butOgg:TGadget = CreateButton("Ogg",90,50,50,25,winMain,BUTTON_RADIO)
+Global butMp3:TGadget = CreateButton("Mp3",160,50,50,25,winMain,BUTTON_RADIO)
 Global prgEncodingBar:TGadget = CreateProgBar(20,90,540,25,winMain)
 Local style:Int = GetWindowLongW(TWindowsGadget(prgEncodingBar)._hwnd, GWL_STYLE)
 SetWindowLongW(TWindowsGadget(prgEncodingBar)._hwnd , GWL_STYLE, style | PBS_MARQUEE)
@@ -74,6 +75,12 @@ Repeat
 	Select ev.id
 	Case EVENT_GADGETACTION
 		Select ev.source
+		Case butWav
+			DisableGadget(boxEncoderQuality)
+			
+		Case butOgg,butMp3
+			EnableGadget(boxEncoderQuality)
+			
 		Case butSelectOutfile
 			OnSelectOutfilePressed()
 					
@@ -95,6 +102,7 @@ Function OnSelectOutfilePressed()
 	Local Filter:String
 	If ButtonState(butOGG) Filter = "ogg"
 	If ButtonState(butMp3) Filter = "mp3"
+	If ButtonState(butWav) Filter = "wav"
 	
 	Local Outfilepath:String = RequestFile("Save As",Filter+":"+Filter,True,"")
 	If Outfilepath <> ""
@@ -121,14 +129,20 @@ Function StartEncoding()
 	Local Bitrate:Float
 	Local BitrateIndex = SelectedGadgetItem(boxEncoderQuality)
 	
-	If ButtonState(butMp3)
+	Select True
+	Case ButtonState(butMp3)
 		Bitrate = Mp3_Compressions[BitrateIndex]
 		NetRadio.SetEncoder(SRS_FMOD_ENCODER_TYPE_MP3)
-	EndIf		
-	If ButtonState(butOgg)
+	
+	Case ButtonState(butOgg)
 		Bitrate = Ogg_Compressions[BitrateIndex]
 		NetRadio.SetEncoder(SRS_FMOD_ENCODER_TYPE_OGG)
-	EndIf
+	
+	Case ButtonState(butWav)
+		Bitrate = 0
+		NetRadio.SetEncoder(SRS_FMOD_ENCODER_TYPE_WAV)
+	
+	EndSelect
 	
 	NetRadio.SetOutputBitrate(Bitrate)
 	
@@ -139,12 +153,11 @@ Function StartEncoding()
 	' We're good to go now
 	IsEncoding = NetRadio.StartEncoding()
 	If Not IsEncoding Return
-	IsEncoding = True
-	
+
 	SetGadgetText(butEncode,"Stop encoding")
-	
 	SendMessageW(TWindowsGadget(prgEncodingBar)._hwnd,PBM_SETMARQUEE,True,0)
-	
+	RedrawGadget(prgEncodingBar)
+
 	DisableGadget(butOgg)
 	DisableGadget(butMp3)
 	DisableGadget(butSelectOutfile)
