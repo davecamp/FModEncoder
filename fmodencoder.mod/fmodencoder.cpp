@@ -1,8 +1,5 @@
 
-#define _FILE_OFFSET_BITS=64
-#define _LARGEFILE64_SOURCE
-
-#include <cstdio>
+#include <stdio.h>
 
 #include "..\..\bah.mod\fmod.mod\include\fmod_errors.h"
 #include "fmodencoder.h"
@@ -19,7 +16,7 @@ int CreateFModEncoder(IFModEncoder** ppFModEncoder){
 	
 	CFModEncoder* pEncoder = new CFModEncoder();
 	*ppFModEncoder = pEncoder;
-	
+
 	return true;
 }
 
@@ -83,7 +80,7 @@ int CFModEncoder::StartEncoding(){
 	int iNoChannels = 0;
 	FMOD_Sound_GetFormat(m_fmodSound,0,0,&iNoChannels,0);
 	
-	m_OutputFile = fopen64(m_OutputFilename,"wb");
+	m_OutputFile = fopen(m_OutputFilename,"wb");
 	if(!m_OutputFile) return false;
 	
 	unsigned long uiEncodedBufferSize = 0;

@@ -12,19 +12,19 @@ class CFModEncoder : public IFModEncoder{
 public:
 	CFModEncoder();
 	
-	int Init();
-	void Close();
+	int __cdecl Init();
+	void _cdecl Close();
 	
-	int SetRadioStation(char* pRadioStation);
-	void SetOutputFilename(char* pFilename);
-	void SetEncoder(SRS_FMOD_ENCODER_CODEC eEncoderType);
-	void SetOutputBitrate(float fBitrate);
-	int StartEncoding();
-	int StopEncoding();
+	int _cdecl SetRadioStation(char* pRadioStation);
+	void _cdecl SetOutputFilename(char* pFilename);
+	void _cdecl SetEncoder(SRS_FMOD_ENCODER_CODEC eEncoderType);
+	void _cdecl SetOutputBitrate(float fBitrate);
+	int _cdecl StartEncoding();
+	int _cdecl StopEncoding();
 
 	// called via callback
-	int IsEncoding();
-	void Encode(void* pSamples,unsigned int uiSamplesLength);
+	int _cdecl IsEncoding();
+	void _cdecl Encode(void* pSamples,unsigned int uiSamplesLength);
 
 private:
 	int StartRadioStation(char* pRadioStation);
