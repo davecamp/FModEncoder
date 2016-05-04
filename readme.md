@@ -18,7 +18,6 @@ Load the FMODEncoder.bmx application into your editor. Compile and test.
     
 NOTE
 ----
-As this is a WIP the Wav 'encoder' isn't implemented just yet.
 Mp3 encoding via LAME is possible if your have the libmp3lame.dll in the application folder.
 Ogg encoding is made possible courtesy of awesome work done over at http://www.vorbis.com , http://xiph.org
 
