@@ -44,7 +44,6 @@ Const SRS_FMOD_ENCODER_TYPE_OGG:Int = 2
 Const SRS_FMOD_ENCODER_TYPE_WAV:Int = 3
 
 Extern"C"
-	Rem
 	?bmxng
 	Interface IFModEncoder
 		Method Init:Int()
@@ -58,7 +57,7 @@ Extern"C"
 		Method StopEncoding:Int()
 	EndInterface
 	?
-	EndRem
+
 	?Not bmxng
 	Type IFModEncoder
 		Method Init:Int()

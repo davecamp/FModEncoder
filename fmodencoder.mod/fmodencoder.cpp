@@ -89,6 +89,7 @@ int CFModEncoder::StartEncoding(){
 		m_pEncoderCodec = 0;
 		return false;
 	}
+
 	if(uiEncodedBufferSize) fwrite(m_pEncodedBuffer,sizeof(char),uiEncodedBufferSize,m_OutputFile);
 
 	m_bIsEncoding = true;

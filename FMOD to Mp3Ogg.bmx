@@ -15,11 +15,8 @@ Import maxgui.xpmanifest
 ' set up the FMODEncoder
 Global NetRadio:IFMODEncoder
 CreateFModEncoder(NetRadio)
-
 NetRadio.Init()
 NetRadio.SetRadioStation("http://relay.181.fm:8030")
-
-
 
 
 ' GUI
@@ -80,7 +77,7 @@ Repeat
 			
 		Case butOgg,butMp3
 			EnableGadget(boxEncoderQuality)
-			
+
 		Case butSelectOutfile
 			OnSelectOutfilePressed()
 					

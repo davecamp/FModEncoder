@@ -2,6 +2,7 @@
 #ifndef SRS_FMODENCODERCODEC_WAV_H
 #define SRS_FMODENCODERCODEC_WAV_H
 
+#include "riff.h"
 #include "ifmodencodercodec.h"
 
 class CFModEncoderCodecWav : public IFModEncoderCodec{
@@ -15,7 +16,7 @@ public:
 	void EmptyCodec(void* pEncodedSamples, unsigned long* uiEncodedSamplesLength);
 	
 private:
-	unsigned long EncodeChunk(void* pInSamples);
+	WAVHEADER		m_wavHeader;
 };
 
 #endif
