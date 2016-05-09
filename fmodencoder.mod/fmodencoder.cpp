@@ -80,7 +80,7 @@ int CFModEncoder::StartEncoding(){
 	int iNoChannels = 0;
 	FMOD_Sound_GetFormat(m_fmodSound,0,0,&iNoChannels,0);
 	
-	m_OutputFile = fopen(m_OutputFilename,"wb");
+	m_OutputFile = fopen64(m_OutputFilename,"wb");
 	if(!m_OutputFile) return false;
 	
 	unsigned long uiEncodedBufferSize = 0;
