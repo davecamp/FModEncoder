@@ -15,7 +15,12 @@ The folder structure will now look like *BlitzMax*\mod\srs.mod\fmodencoder.mod\*
 
 In the BlitzMax IDE of your choice build the module.
 Load the FMODEncoder.bmx application into your editor. Compile and test.
-    
+  
+Example
+-------
+There is an example application in the fmodencoder.mod/ExampleApp folder
+
+
 NOTE
 ----
 Mp3 encoding via LAME is possible if your have the libmp3lame.dll in the application folder.
