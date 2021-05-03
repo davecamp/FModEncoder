@@ -7,38 +7,43 @@ Module srs.fmodencoder
 
 ' For the sake of the example app I kept the volume on - Col"
 
+ModuleInfo "2020.09.17:"
+ModuleInfo " - Module modifications and updates - Grisu"
+
 ModuleInfo "2018.04.21 :"
 ModuleInfo " - Corrected a bug of not closing the encoded when finished - Col"
 ModuleInfo " - Allow encoding of mono input files - Col"
 ModuleInfo " - Module modifications and updates - Grisu"
 
-Import "libogg-1.3.3/include/*.h"
-Import "libogg-1.3.3/src/bitwise.c"
-Import "libogg-1.3.3/src/framing.c"
-Import "libvorbis-1.3.6/include/vorbis/*.h"
-Import "libvorbis-1.3.6/include/*.h"
-Import "libvorbis-1.3.6/lib/*.h"
-Import "libvorbis-1.3.6/lib/bitrate.c"
-Import "libvorbis-1.3.6/lib/block.c"
-Import "libvorbis-1.3.6/lib/codebook.c"
-Import "libvorbis-1.3.6/lib/envelope.c"
-Import "libvorbis-1.3.6/lib/floor0.c" 
-Import "libvorbis-1.3.6/lib/floor1.c"
-Import "libvorbis-1.3.6/lib/info.c"
-Import "libvorbis-1.3.6/lib/lpc.c"
-Import "libvorbis-1.3.6/lib/lsp.c"
-Import "libvorbis-1.3.6/lib/mapping0.c"
-Import "libvorbis-1.3.6/lib/mdct.c"
-Import "libvorbis-1.3.6/lib/psy.c"
-Import "libvorbis-1.3.6/lib/registry.c"
-Import "libvorbis-1.3.6/lib/res0.c"
-Import "libvorbis-1.3.6/lib/sharedbook.c"
-Import "libvorbis-1.3.6/lib/smallft.c"
-Import "libvorbis-1.3.6/lib/synthesis.c"
-Import "libvorbis-1.3.6/lib/vorbisfile.c"
-Import "libvorbis-1.3.6/lib/window.c"
-Import "libvorbis-1.3.6/lib/analysis.c"
-Import "libvorbis-1.3.6/lib/vorbisenc.c"
+ModuleInfo "LD_OPTS: -march=i686"
+
+Import "libogg-1.3.4/include/*.h"
+Import "libogg-1.3.4/src/bitwise.c"
+Import "libogg-1.3.4/src/framing.c"
+Import "libvorbis-1.3.7/include/vorbis/*.h"
+Import "libvorbis-1.3.7/include/*.h"
+Import "libvorbis-1.3.7/lib/*.h"
+Import "libvorbis-1.3.7/lib/bitrate.c"
+Import "libvorbis-1.3.7/lib/block.c"
+Import "libvorbis-1.3.7/lib/codebook.c"
+Import "libvorbis-1.3.7/lib/envelope.c"
+Import "libvorbis-1.3.7/lib/floor0.c" 
+Import "libvorbis-1.3.7/lib/floor1.c"
+Import "libvorbis-1.3.7/lib/info.c"
+Import "libvorbis-1.3.7/lib/lpc.c"
+Import "libvorbis-1.3.7/lib/lsp.c"
+Import "libvorbis-1.3.7/lib/mapping0.c"
+Import "libvorbis-1.3.7/lib/mdct.c"
+Import "libvorbis-1.3.7/lib/psy.c"
+Import "libvorbis-1.3.7/lib/registry.c"
+Import "libvorbis-1.3.7/lib/res0.c"
+Import "libvorbis-1.3.7/lib/sharedbook.c"
+Import "libvorbis-1.3.7/lib/smallft.c"
+Import "libvorbis-1.3.7/lib/synthesis.c"
+Import "libvorbis-1.3.7/lib/vorbisfile.c"
+Import "libvorbis-1.3.7/lib/window.c"
+Import "libvorbis-1.3.7/lib/analysis.c"
+Import "libvorbis-1.3.7/lib/vorbisenc.c"
 
 Import "FModCallback.cpp"
 Import "FModEncoder.cpp"
@@ -147,7 +152,7 @@ Type TFMODController
 
  		fmSound.GetSoundChannels(fmInChannelCount)
  		fmChannel = fmSystem.PlaySound(0,fmSound)
-       ' fmChannel.setvolume(0)  ' changed!
+        fmChannel.setvolume(0)  ' changed!
  		fmChannel.GetFrequency(fmInFrequency)
  
  		Encoder = CreateEncoder()

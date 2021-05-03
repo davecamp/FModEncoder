@@ -40,10 +40,10 @@ int FModEncoderCodecOgg::InitCodec(int iNoOfChannels,float dwInSamplerate, float
 
 	int iOffset = 0;
 	while(ogg_stream_flush(&m_stream,&m_page)){
-		memcpy(pInitData + iOffset,m_page.header,m_page.header_len);
+		memcpy((char*)pInitData + iOffset,m_page.header,m_page.header_len);
 		iOffset += m_page.header_len;
 
-		memcpy(pInitData + iOffset,m_page.body,m_page.body_len);
+		memcpy((char*)pInitData + iOffset,m_page.body,m_page.body_len);
 		iOffset += m_page.body_len;
 	}
 
@@ -51,7 +51,7 @@ int FModEncoderCodecOgg::InitCodec(int iNoOfChannels,float dwInSamplerate, float
 	return true;
 }
 
-int FModEncoderCodecOgg::Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* uiEncodedSamplesLength){
+void FModEncoderCodecOgg::Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* uiEncodedSamplesLength){
 	float **buffer=vorbis_analysis_buffer(&m_state,uiInSamplesLength);
 	short* psInSamples = static_cast<short*>(pInSamples);
 
@@ -62,7 +62,6 @@ int FModEncoderCodecOgg::Encode(void* pInSamples,unsigned long uiInSamplesLength
 	vorbis_analysis_wrote(&m_state,uiInSamplesLength/( 2 * m_channels));
 
 	*uiEncodedSamplesLength = EncodeChunk(pEncodedSamples);
-	return true;
 }
 
 unsigned long FModEncoderCodecOgg::EncodeChunk(void* pEncodedSamples){
@@ -77,10 +76,10 @@ unsigned long FModEncoderCodecOgg::EncodeChunk(void* pEncodedSamples){
 			
 			if(!ogg_stream_pageout(&m_stream,&m_page)) break;
 			
-			memcpy( pEncodedSamples + iEncodedBytes, m_page.header, m_page.header_len);
+			memcpy((char*)pEncodedSamples + iEncodedBytes, m_page.header, m_page.header_len);
 			iEncodedBytes += m_page.header_len;
 			
-			memcpy( pEncodedSamples + iEncodedBytes, m_page.body, m_page.body_len);
+			memcpy((char*)pEncodedSamples + iEncodedBytes, m_page.body, m_page.body_len);
 			iEncodedBytes += m_page.body_len;
 		}
 	}

@@ -15,7 +15,7 @@ public:
 	void Close();
 
 	int InitCodec(int iNoOfChannels,float dwInSamplerate, float dwOutBitrate, void* pInitData, unsigned long* puiInitDataSize);
-	int Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* uiEncodedSamplesLength);
+	void Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* uiEncodedSamplesLength);
 	void EmptyCodec(void* pEncodedSamples, unsigned long* uiEncodedSamplesLength);
 	
 private:

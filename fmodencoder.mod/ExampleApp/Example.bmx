@@ -10,11 +10,13 @@ Import brl.eventqueue
 
 Import srs.fmodencoder
 Import maxgui.drivers
-Import maxgui.xpmanifest
+'Import maxgui.xpmanifest
 
 ' set up the FMODEncoder
 Global NetRadio:TFMODController = New TFMODController.Create()
 'NetRadio.TuneTo("http://142.4.217.133:9195/stream") ' mono
+'NetRadio.TuneTo("https://live.welle1.at:18128/stream") ' stereo
+
 NetRadio.TuneTo("http://relay.181.fm:8030") ' stereo
 
 
@@ -127,20 +129,30 @@ Function StartEncoding()
 	
 	' filename
 	Local OutFilename$ = GadgetText(txtOutFilename)
-	
+	Print "Encoding to file: " + OutFilename
+
 	Select True
 	Case ButtonState(butMp3)
 		Bitrate = Mp3_Compressions[BitrateIndex]
-		NetRadio.InitEncoder(FMOD_ENCODER_MP3, OutFilename, Bitrate)
-	
+		If Not NetRadio.InitEncoder(FMOD_ENCODER_MP3, OutFilename, Bitrate)
+			Notify "Failed to create MP3 encoder."
+			Return
+		EndIf
+		
 	Case ButtonState(butOgg)
 		Bitrate = Ogg_Compressions[BitrateIndex]
-		NetRadio.InitEncoder(FMOD_ENCODER_OGG, OutFilename, Bitrate)
-	
+		If Not NetRadio.InitEncoder(FMOD_ENCODER_OGG, OutFilename, Bitrate)
+			Notify "Failed to create Ogg encoder."
+			Return
+		EndIf
+
 	Case ButtonState(butWav)
 		Bitrate = 0
-		NetRadio.InitEncoder(FMOD_ENCODER_WAV, OutFilename, Bitrate)
-	
+		If Not NetRadio.InitEncoder(FMOD_ENCODER_WAV, OutFilename, Bitrate)	
+			Notify "Failed to create wav encoder."
+			Return
+		EndIf
+
 	EndSelect
 	
 	' We're good to go now

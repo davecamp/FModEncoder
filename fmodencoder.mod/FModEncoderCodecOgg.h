@@ -3,7 +3,7 @@
 #define SRS_FMODENCODERCODEC_OGG_H
 
 #include "ifmodencodercodec.h"
-#include "libvorbis-1.3.6/include/vorbis/vorbisenc.h"
+#include "libvorbis-1.3.7/include/vorbis/vorbisenc.h"
 
 class FModEncoderCodecOgg : public IFModEncoderCodec{
 public:
@@ -12,7 +12,7 @@ public:
 	void Close();
 
 	int InitCodec(int iNoOfChannels,float dwInSamplerate, float dwOutBitrate, void* pInitData, unsigned long* puiInitDataSize);
-	int Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* puiEncodedSamplesLength);
+	void Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* puiEncodedSamplesLength);
 	void EmptyCodec(void* pEncodedSamples, unsigned long* uiEncodedSamplesLength);
 	
 private:

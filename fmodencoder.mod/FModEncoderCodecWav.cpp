@@ -35,11 +35,9 @@ int FModEncoderCodecWav::InitCodec(int iNoOfChannels,float dwInSamplerate, float
 	return true;
 }
 
-int FModEncoderCodecWav::Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* puiEncodedSamplesLength){
+void FModEncoderCodecWav::Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* puiEncodedSamplesLength){
 	memcpy(pEncodedSamples,pInSamples,uiInSamplesLength);
 	*puiEncodedSamplesLength = uiInSamplesLength;
-
-	return true;
 }
 
 void FModEncoderCodecWav::EmptyCodec(void* pEncodedSamples, unsigned long* uiEncodedSamplesLength){

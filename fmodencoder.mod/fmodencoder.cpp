@@ -87,9 +87,8 @@ void FModEncoder::Encode(void* pSamples, unsigned int uiSamplesLength){
 	if(m_pCodec){
 		unsigned long uiEncodedLength = 0;
 		m_pCodec->Encode(pSamples,uiSamplesLength,&m_EncodedBuffer,&uiEncodedLength);
-		if(uiEncodedLength ) fwrite(m_EncodedBuffer,1,uiEncodedLength,m_pOutputFile);
+		if(uiEncodedLength) fwrite(m_EncodedBuffer,1,uiEncodedLength,m_pOutputFile);
 	}
-
 }
 
 

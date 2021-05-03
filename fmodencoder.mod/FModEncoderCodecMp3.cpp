@@ -48,7 +48,7 @@ int FModEncoderCodecMp3::InitCodec(int iNoOfChannels,float fInSamplerate, float 
 	return true;
 }
 
-int FModEncoderCodecMp3::Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* uiEncodedSamplesLength){
+void FModEncoderCodecMp3::Encode(void* pInSamples,unsigned long uiInSamplesLength, void* pEncodedSamples, unsigned long* uiEncodedSamplesLength){
 	short int* psSamples = static_cast<short int*>(pInSamples);
 	BYTE* pbEncodedSamples = static_cast<BYTE*>(pEncodedSamples);
 
